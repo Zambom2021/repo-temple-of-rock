@@ -27,7 +27,7 @@ digito os dados para cadastrar um Novo usuario e clico no botão registrar
     Input Text        id=registerEmail          ${useremail}
     Click Button      id=registerBtn
 
- 
+digito os dados para cadastrar um Novo usuario com email Invalido e clico no botão registrar 
     ${useremail}      Generate Valid email
     ${username}       Generate Username
     ${password}       Generate Password
