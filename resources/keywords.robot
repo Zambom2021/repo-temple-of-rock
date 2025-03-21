@@ -10,7 +10,7 @@ ${api_url}            http://localhost:9090/api
 ${SESSION_ALIAS}      my_session
 
 @{PRE_NAME}          The    Last     Deep    Iron    Metal     Ultimate    Best Of     
-${BAND_ID}           66e98b268cacd71966c70e2a
+${BAND_ID}           67101fad793421e6f0cad861
 *** Keywords ***
 Generate Current Date
     ${date}=    DateGenerator.current_date     

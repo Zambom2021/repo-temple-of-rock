@@ -12,7 +12,7 @@ Library         ../resources/DateGenerator.py
 
 Resource        ../resources/keywords.robot
 Resource        ../resources/asserts_web.robot
-Resource        ../tests/api/assertions.robot
+Resource        ../resources/assertions.robot
 Resource        ../resources/page_Objects.robot
 
 

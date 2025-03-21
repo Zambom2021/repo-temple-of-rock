@@ -44,17 +44,8 @@ Resource    ../../resources/resource.resource
     Should Be Equal    ${staus_code}    200
     Log    ${response.json()}
 
-04 - Consultar Discografia
-    [Documentation]    Testa a consulta da discografia de uma banda específica
-    [Tags]    4    Positive
-    ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
-    ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands/${BAND_ID}
-    ${staus_code}   convert to string    ${response.status_code} 
-    Should Be Equal     ${staus_code}    200
 
-    Log    ${response.json()}
-
-05 - Consultar Banda Por Nome
+04 - Consultar Banda Por Nome
     [Documentation]    Testa a consulta de uma banda pelo nome
     [Tags]    5    Positive
 
@@ -64,7 +55,7 @@ Resource    ../../resources/resource.resource
     Should Not Be Empty     ${response_body["_id"]}   
     Should Be Equal         ${response_body["name"]}     Kiss  
 
-06 - Consultar Banda Por ID
+05 - Consultar Banda Por ID
     [Documentation]    Testa a consulta de uma banda pelo ID
     [Tags]    6    Positive
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
@@ -73,7 +64,7 @@ Resource    ../../resources/resource.resource
     Should Be Equal     ${staus_code}    200
     Log    ${response.json()}
 
-07 - Alterar Banda
+06 - Alterar Banda
     [Documentation]    Testa a alteração de uma banda já cadastrada
     [Tags]    7   Positive
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 

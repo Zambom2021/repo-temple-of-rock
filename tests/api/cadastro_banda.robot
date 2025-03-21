@@ -34,11 +34,11 @@ Library     ../../resources/GenresModel.py
     [Documentation]    Testa a consulta de uma banda pelo nome
     [Tags]    2    Positive
 
-    ${response_body}    ${staus_code}    Get Band by name     Metal seem
+    ${response_body}    ${staus_code}    Get Band by name     Last Available
 
     Should Be Equal         ${staus_code}    200
     Should Not Be Empty     ${response_body["_id"]}   
-    Should Be Equal         ${response_body["name"]}     Metal seem  
+    Should Be Equal         ${response_body["name"]}     Last Available  
 
 
 03 - Alterar Banda Com Discografia Vazia
@@ -80,7 +80,7 @@ Library     ../../resources/GenresModel.py
     
     ${qtd_disc}     Set Variable    10
 
-    ${band_data}    ${staus_code}    Get Band by name     Last Horizon
+    ${band_data}    ${staus_code}    Get Band by name     Last Available
 
     ${response_Up}    ${request_Up}    ${status_code}
     ...    Gera Atualizacao de Discografia da banda
