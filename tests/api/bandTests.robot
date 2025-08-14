@@ -1,8 +1,7 @@
 Language: pt-br
 *** Settings ***
-Resource    ../../resources/resource.resource
-Resource    ../../resources/keywords_cad_band.robot
-Library     ../../resources/GenresModel.py
+Resource    ${EXECDIR}/resources/resource.resource
+Resource    ${EXECDIR}/resources/keywords_cad_band.robot
 
 *** Test Cases ***
 01 - Cadastro de Nova Banda
@@ -29,7 +28,6 @@ Library     ../../resources/GenresModel.py
 
     Assert Consulta Banda    ${response_Band}        ${request_body}    
 
-
 02 - Consultar Banda Por Nome
     [Documentation]    Testa a consulta de uma banda pelo nome
     [Tags]    2    Positive
@@ -39,7 +37,6 @@ Library     ../../resources/GenresModel.py
     Should Be Equal         ${staus_code}    200
     Should Not Be Empty     ${response_body["_id"]}   
     Should Be Equal         ${response_body["name"]}     Last Available  
-
 
 03 - Alterar Banda Com Discografia Vazia
     [Documentation]    Testa a alteração de uma banda já cadastrada
@@ -85,3 +82,5 @@ Library     ../../resources/GenresModel.py
     ${response_Up}    ${request_Up}    ${status_code}
     ...    Gera Atualizacao de Discografia da banda
     ...    ${band_data}    ${qtd_disc} 
+
+
