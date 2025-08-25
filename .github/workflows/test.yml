@@ -20,7 +20,8 @@ jobs:
       uses: actions/checkout@v3
       with:
         repository: seuusuario/temple-of-rock
-        token: ${{ secrets.GITHUB_TOKEN }}
+        token: ${{ secrets.PAT_TOKEN }}
+        ref: main   # ou master
         path: temple-of-rock
 
     # 3️⃣ Setup Docker
