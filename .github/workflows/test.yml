@@ -23,6 +23,7 @@ jobs:
         repository: Zambom2021/temple-of-rock
         ref: main   # ou master
         token: ${{ secrets.PAT_TOKEN }}
+        path: app
 
     # 3️⃣ Setup Docker
     - name: Set up Docker
