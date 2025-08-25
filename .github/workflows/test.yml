@@ -19,7 +19,7 @@ jobs:
     - name: Checkout aplicação privada
       uses: actions/checkout@v3
       with:
-        repository: seuusuario/temple-of-rock
+        repository: Zambom2021/temple-of-rock
         token: ${{ secrets.PAT_TOKEN }}
         ref: main   # ou master
         path: temple-of-rock
