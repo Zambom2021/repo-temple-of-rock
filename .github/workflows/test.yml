@@ -16,13 +16,12 @@ jobs:
       uses: actions/checkout@v3
 
     # 2️⃣ Checkout do repositório da aplicação privada
-    - name: Checkout aplicação privada
-      uses: actions/checkout@v3
+    - name: Checkout private repo
+      uses: actions/checkout@v4
       with:
         repository: Zambom2021/temple-of-rock
-        token: ${{ secrets.PAT_TOKEN }}
         ref: main   # ou master
-        path: temple-of-rock
+        token: ${{ secrets.PAT_TOKEN }}
 
     # 3️⃣ Setup Docker
     - name: Set up Docker
