@@ -38,10 +38,11 @@ jobs:
 
     # 6️⃣ Upload de artifacts do Robot Framework
     - name: Upload test results
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: robot-test-results
         path: logs/
+
 
     # 7️⃣ Limpar containers e volumes
     - name: Docker Compose down
