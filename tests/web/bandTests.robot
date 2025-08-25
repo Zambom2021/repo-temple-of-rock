@@ -11,7 +11,7 @@ Test Teardown    Fechar Navegador
     [Tags]    8
 
     Dado que acesse a pagina temple Of Rock
-    Quando digito a letra "n" e clico no botão de busca
+    Quando digito a letra "d" e clico no botão de busca
     Então devo visualizar a listagem de Bandas
 
 09 - Consulta Detalhes de uma Banda na consulta pela letra Inicial do Nome
@@ -19,7 +19,7 @@ Test Teardown    Fechar Navegador
     [Tags]    9
 
     Dado que acesse a pagina temple Of Rock
-    E digito a letra "s" e clico no botão de busca
+    E digito a letra "t" e clico no botão de busca
     ${banda_nome}    
     ...    Quando seleciono uma Banda na lista
     Então devo ver os detalhes da Banda    
@@ -30,9 +30,9 @@ Test Teardown    Fechar Navegador
     [Tags]    10
 
     Dado que acesse a pagina temple Of Rock   
-    Quando digito o nome "Nirvana" clico no botão de busca 
+    Quando digito o nome "Deep Spring" clico no botão de busca 
     Então devo ver os detalhes da Banda
-    ...    Nirvana           
+    ...    Deep Spring           
 
 11 - Cadastro de uma nova Banda 
     [Documentation]    Testa o Cadastro de uma nova Banda 
@@ -49,7 +49,7 @@ Test Teardown    Fechar Navegador
 
     Dado que esteja logado na pagina Temple of rock
     E seleciono o ítem "Editar Banda"
-    Quando digito o nome da banda "our dusk" e clico em Editar 
+    Quando digito o nome da banda "Best Of Dinner" e clico em Editar 
     E preencho o formulario de Editar Banda e clico em Salvar
     Então valido a mensagem de sucesso
 
@@ -59,7 +59,7 @@ Test Teardown    Fechar Navegador
 
     Dado que esteja logado na pagina Temple of rock
     E seleciono o ítem "Editar Banda"
-    Quando digito o nome da banda "Heaven's Wait" e clico em Editar 
+    Quando digito o nome da banda "Metal Our" e clico em Editar 
     E preencho o formulario de Editar Banda e clico em Salvar
     Então valido a mensagem de falha
     
@@ -72,7 +72,7 @@ Test Teardown    Fechar Navegador
     ${disc_Year}=    Evaluate    1998+${randomNumber}
     
     Dado que esteja logado na pagina Temple of rock
-    E digito o nome da banda "Deep sign" e clico em incluir discos
+    E digito o nome da banda "Last Seek" e clico em incluir discos
     Quando digito o "${disc_title}" e o "${disc_Year}" e clico e Salvar
     Então vejo a a mensagem "Disco adicionado com sucesso!" 
 

@@ -32,11 +32,11 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
     [Documentation]    Testa a consulta de uma banda pelo nome
     [Tags]    2    Positive
 
-    ${response_body}    ${staus_code}    Get Band by name     Last Available
+    ${response_body}    ${staus_code}    Get Band by name     Metal Factor
 
     Should Be Equal         ${staus_code}    200
     Should Not Be Empty     ${response_body["_id"]}   
-    Should Be Equal         ${response_body["name"]}     Last Available  
+    Should Be Equal         ${response_body["name"]}     Metal Factor  
 
 03 - Alterar Banda Com Discografia Vazia
     [Documentation]    Testa a alteração de uma banda já cadastrada
@@ -77,7 +77,7 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
     
     ${qtd_disc}     Set Variable    10
 
-    ${band_data}    ${staus_code}    Get Band by name     Last Available
+    ${band_data}    ${staus_code}    Get Band by name     Metal Factor
 
     ${response_Up}    ${request_Up}    ${status_code}
     ...    Gera Atualizacao de Discografia da banda

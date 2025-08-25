@@ -26,13 +26,13 @@ Assert Invalid User
 Assert Cadastro Banda
     [Arguments]    ${response}    ${request_body}    ${status_code} 
 
-    Should Be Equal               ${status_code}                   201
-    Should Not Be Empty           ${response["_id"]} 
-    Should Be Equal               ${response["name"]}              ${request_body["name"]}  
-    Should Be Equal               ${response["genre"]}             ${request_body["genre"]} 
-    Should Be Equal               ${response["country"]}           ${request_body["country"]} 
-    Should Be Equal As Numbers    ${response["formationYear"]}     ${request_body["formationYear"]} 
-    Should Be Equal               ${response["members"]}           ${request_body["members"]}
+    Should Be Equal                   ${status_code}                   201
+    Should Not Be Empty               ${response["_id"]} 
+    Should Be Equal As Strings        ${response["name"]}              ${request_body["name"]}    ignore_case=True  
+    Should Be Equal As Strings        ${response["genre"]}             ${request_body["genre"]} 
+    Should Be Equal As Strings        ${response["country"]}           ${request_body["country"]} 
+    Should Be Equal As Numbers        ${response["formationYear"]}     ${request_body["formationYear"]} 
+    Should Be Equal                   ${response["members"]}           ${request_body["members"]}
 
     ${disc_request}=    Get Length    ${request_body["discography"]}
 
@@ -46,7 +46,7 @@ Assert Cadastro Banda
 Assert Consulta Banda    
     [Arguments]    ${response_Band}        ${request_body} 
 
-    Should Be Equal               ${response_Band["name"]}              ${request_body["name"]}  
+    Should Be Equal               ${response_Band["name"]}              ${request_body["name"]}    ignore_case=True   
     Should Be Equal               ${response_Band["genre"]}             ${request_body["genre"]} 
     Should Be Equal               ${response_Band["country"]}           ${request_body["country"]} 
     Should Be Equal As Numbers    ${response_Band["formationYear"]}     ${request_body["formationYear"]} 

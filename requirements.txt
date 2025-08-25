@@ -1,4 +1,6 @@
-robotframework==7.1
-robotframework-seleniumlibrary==6.6.1
-selenium==4.25.0
-webdriver-manager==3.8.6
+robotframework
+robotframework-seleniumlibrary
+selenium
+webdriver-manager
+robotframework-faker
+httpx
