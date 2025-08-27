@@ -8,16 +8,16 @@ on:
   workflow_dispatch:
 
 jobs:
-  setup:
+  # -------------------------
+  # 1️⃣ Testes API
+  # -------------------------
+  api-tests:
     runs-on: ubuntu-latest
-    outputs:
-      python-path: ${{ steps.python-setup.outputs.python-path }}
     steps:
       - name: Checkout test repo
         uses: actions/checkout@v3
 
       - name: Set up Python
-        id: python-setup
         uses: actions/setup-python@v4
         with:
           python-version: '3.x'
@@ -28,18 +28,9 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
-      - name: Ensure logs directory exists
-        run: mkdir -p logs
-
-  api-tests:
-    runs-on: ubuntu-latest
-    needs: setup
-    steps:
-      - name: Checkout test repo
-        uses: actions/checkout@v3
-
       - name: Run API tests
-        run: robot -d logs tests/api/
+        run: |
+          python -m robot -d logs tests/api/
 
       - name: Upload API test results
         uses: actions/upload-artifact@v4
@@ -47,6 +38,9 @@ jobs:
           name: robot-api-test-results
           path: logs/
 
+  # -------------------------
+  # 2️⃣ Testes Web (dependem da aplicação)
+  # -------------------------
   web-tests:
     runs-on: ubuntu-latest
     needs: api-tests
@@ -62,7 +56,10 @@ jobs:
           token: ${{ secrets.TEMPLE_TOKEN }}
           path: app
 
-      # Subir containers da aplicação
+      # Docker Buildx e subir containers
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Start app with Docker Compose
         run: |
           cd app
@@ -71,7 +68,19 @@ jobs:
             curl -s http://localhost:9090/health && break || sleep 3
           done
 
-      # Chrome e ChromeDriver headless
+      # Python + dependências
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install robotframework-seleniumlibrary selenium requests urllib3
+
+      # Chrome e ChromeDriver
       - name: Setup Chrome and ChromeDriver
         run: |
           sudo apt-get update
@@ -86,17 +95,20 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/
 
+      # Rodar testes Robot Framework Web
       - name: Run Web tests
         run: |
-          export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox --variable OPTIONS3:--disable-dev-shm-usage"
-          robot -d logs tests/web/
+          export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox"
+          python -m robot -d logs tests/web/
 
+      # Upload resultados
       - name: Upload Web test results
         uses: actions/upload-artifact@v4
         with:
           name: robot-web-test-results
           path: logs/
 
+      # Docker Compose down
       - name: Docker Compose down
         if: always()
         run: |
