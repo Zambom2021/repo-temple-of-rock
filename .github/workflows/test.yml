@@ -7,9 +7,6 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
-env:
-  MONGODB_URI: ${{ secrets.MONGODB_URI }}
-
 jobs:
   run-tests:
     runs-on: ubuntu-latest
@@ -34,27 +31,18 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       # -------------------------
-      # Subir container da aplicação com variável de ambiente
+      # Subir containers da aplicação
       # -------------------------
       - name: Start app with Docker Compose
         run: |
           cd app
-          # Subir containers com variável de ambiente
-          MONGODB_URI="${MONGODB_URI}" docker compose up -d --build
-          echo "Waiting for app to be ready..."
+          docker compose up -d --build
+          echo "Waiting for backend to be ready..."
           for i in {1..30}; do
             curl -s http://localhost:9090/health && break
             echo "Waiting 3s..."
             sleep 3
           done
-
-      # -------------------------
-      # Debug MongoDB connection
-      # -------------------------
-      - name: Check MongoDB connection
-        run: |
-          docker compose exec app sh -c "echo \$MONGODB_URI"
-          docker compose exec app sh -c "node -e \"require('mongoose').connect(process.env.MONGODB_URI).then(() => console.log('Mongo connected')).catch(console.error)\""
 
       # -------------------------
       # Python + dependências
@@ -118,5 +106,4 @@ jobs:
         if: always()
         run: |
           cd app
-          docker compose down
-
+          docker compose down -v

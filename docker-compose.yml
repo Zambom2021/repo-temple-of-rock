@@ -8,8 +8,9 @@ services:
       - "27017:27017"
     environment:
       MONGO_INITDB_DATABASE: temple-of-rock
+    # volume anônimo para CI/CD
     volumes:
-      - mongo-data:/data/db
+      - /data/db
 
   backend:
     build:
@@ -21,6 +22,7 @@ services:
     depends_on:
       - mongo
     environment:
+      # Aponta para o mongo do serviço
       MONGODB_URI: mongodb://mongo:27017/temple-of-rock
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9090/web/"]
