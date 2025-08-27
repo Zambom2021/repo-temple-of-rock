@@ -9,12 +9,14 @@ on:
 
 jobs:
   # -------------------------
-  # 1️⃣ Testes API
+  # 1️⃣ Subir aplicação + rodar testes API
   # -------------------------
   api-tests:
     runs-on: ubuntu-latest
+    outputs:
+      app-port: 9090
     steps:
-      # Checkout dos repositórios
+      # Checkout repositórios
       - name: Checkout test repo
         uses: actions/checkout@v3
 
@@ -29,11 +31,10 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Start app with Docker Compose
+      # Subir container da aplicação com MONGODB_URI
       - name: Start app with Docker Compose
         run: |
           cd app
-          # Define a variável de ambiente para o docker compose
           export MONGODB_URI="${{ secrets.MONGODB_URI }}"
           docker compose up -d --build
           echo "Waiting for app to be ready..."
@@ -43,7 +44,7 @@ jobs:
             sleep 3
           done
 
-      # Configuração Python + dependências
+      # Python + dependências
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -57,7 +58,8 @@ jobs:
 
       # Rodar testes API
       - name: Run API tests
-        run: python -m robot -d logs tests/api/
+        run: |
+          python -m robot -d logs tests/api/
 
       # Upload resultados
       - name: Upload API test results
@@ -66,21 +68,14 @@ jobs:
           name: robot-api-test-results
           path: logs/
 
-      # Docker Compose down
-      - name: Docker Compose down
-        if: always()
-        run: |
-          cd app
-          docker compose down -v
-
   # -------------------------
-  # 2️⃣ Testes Web
+  # 2️⃣ Rodar testes Web (mesmo container da API)
   # -------------------------
   web-tests:
     runs-on: ubuntu-latest
     needs: api-tests
     steps:
-      # Checkout dos repositórios
+      # Checkout repositórios
       - name: Checkout test repo
         uses: actions/checkout@v3
 
@@ -91,25 +86,7 @@ jobs:
           token: ${{ secrets.TEMPLE_TOKEN }}
           path: app
 
-      # Docker Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      # Start app with Docker Compose
-      - name: Start app with Docker Compose
-        run: |
-          cd app
-          # Define a variável de ambiente para o docker compose
-          export MONGODB_URI="${{ secrets.MONGODB_URI }}"
-          docker compose up -d --build
-          echo "Waiting for app to be ready..."
-          for i in {1..30}; do
-            curl -s http://localhost:9090/health && break
-            echo "Waiting 3s..."
-            sleep 3
-          done
-
-      # Configuração Python + dependências
+      # Python + dependências
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -121,7 +98,7 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
-      # Chrome + ChromeDriver
+      # Chrome e ChromeDriver
       - name: Setup Chrome and ChromeDriver
         run: |
           sudo apt-get update
@@ -149,9 +126,21 @@ jobs:
           name: robot-web-test-results
           path: logs/
 
-      # Docker Compose down
+  # -------------------------
+  # 3️⃣ Finalizar container da aplicação
+  # -------------------------
+  cleanup:
+    runs-on: ubuntu-latest
+    needs: [api-tests, web-tests]
+    steps:
+      - name: Checkout app repo
+        uses: actions/checkout@v3
+        with:
+          repository: Zambom2021/temple-of-rock
+          token: ${{ secrets.TEMPLE_TOKEN }}
+          path: app
+
       - name: Docker Compose down
-        if: always()
         run: |
           cd app
           docker compose down -v
