@@ -9,7 +9,7 @@ on:
 
 jobs:
   # -------------------------
-  # 1️⃣ Testes API (dependem da aplicação)
+  # 1️⃣ Testes API
   # -------------------------
   api-tests:
     runs-on: ubuntu-latest
@@ -28,6 +28,11 @@ jobs:
       # Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
+      # Criar .env temporário com Mongo Atlas
+      - name: Create temporary .env
+        run: |
+          echo "MONGODB_URI=${{ secrets.MONGODB_URI }}" > app/.env
 
       # Subir containers da aplicação
       - name: Start app with Docker Compose
@@ -70,7 +75,7 @@ jobs:
           docker compose down -v
 
   # -------------------------
-  # 2️⃣ Testes Web (dependem da aplicação)
+  # 2️⃣ Testes Web
   # -------------------------
   web-tests:
     runs-on: ubuntu-latest
@@ -87,10 +92,11 @@ jobs:
           token: ${{ secrets.TEMPLE_TOKEN }}
           path: app
 
-      # Docker Buildx e subir containers
+      # Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
+      # Subir containers da aplicação
       - name: Start app with Docker Compose
         run: |
           cd app
