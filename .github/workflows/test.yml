@@ -39,7 +39,8 @@ jobs:
       - name: Start app with Docker Compose
         run: |
           cd app
-          docker compose up -d --build
+          # Subir containers com variável de ambiente
+          MONGODB_URI="${MONGODB_URI}" docker compose up -d --build
           echo "Waiting for app to be ready..."
           for i in {1..30}; do
             curl -s http://localhost:9090/health && break
@@ -117,4 +118,5 @@ jobs:
         if: always()
         run: |
           cd app
-          docker compose down -v
+          docker compose down
+
