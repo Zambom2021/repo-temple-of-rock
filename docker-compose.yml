@@ -38,6 +38,5 @@ services:
     depends_on:
       backend:
         condition: service_healthy
-    network_mode: "service:backend"
     volumes:
-      - ./logs:/tests/logs
+    - ./logs:/tests/logs
