@@ -66,20 +66,19 @@ jobs:
           # Atualiza lista de pacotes (ignora erros)
           sudo apt-get update || true
           sudo apt-get install -y unzip wget xvfb || true
+
+          # Remove qualquer ChromeDriver antigo
+          sudo rm -f /usr/local/bin/chromedriver
       
           # Descobre a versão principal do Chrome já instalado
           CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
           echo "Google Chrome version: $CHROME_VERSION"
       
-          # Baixa ChromeDriver compatível
-          wget -q "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" -O chromedriver_version
-          CHROMEDRIVER_VERSION=$(cat chromedriver_version)
-          echo "ChromeDriver version: $CHROMEDRIVER_VERSION"
-      
-          wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
-          unzip chromedriver_linux64.zip
+          # Baixa ChromeDriver compatível diretamente
+          wget https://storage.googleapis.com/chrome-for-testing-public/139.0.7258.66/linux64/chromedriver-linux64.zip
+          unzip chromedriver-linux64.zip
           sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
       
           # Confirma versões
           google-chrome --version
