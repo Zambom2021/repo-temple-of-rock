@@ -23,12 +23,10 @@ jobs:
         repository: Zambom2021/temple-of-rock
         token: ${{ secrets.TEMPLE_TOKEN }}
         path: app
-
-    # 3️⃣ Configurar Docker Compose (usar CLI plugin)
-    - name: Enable Docker Compose CLI
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y docker-compose-plugin
+ 
+    # 3️⃣ Setup Docker e Buildx
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
     # 4️⃣ Subir containers da aplicação
     - name: Start app with Docker
