@@ -7,16 +7,14 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+env:
+  MONGODB_URI: ${{ secrets.MONGODB_URI }}
+
 jobs:
-  # -------------------------
-  # 1️⃣ Subir aplicação + rodar testes API
-  # -------------------------
-  api-tests:
+  run-tests:
     runs-on: ubuntu-latest
-    outputs:
-      app-port: 9090
     steps:
-      # Checkout repositórios
+      # 1️⃣ Checkout repositórios
       - name: Checkout test repo
         uses: actions/checkout@v3
 
@@ -27,24 +25,34 @@ jobs:
           token: ${{ secrets.TEMPLE_TOKEN }}
           path: app
 
-      # Docker Buildx
+      # 2️⃣ Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # Subir container da aplicação com MONGODB_URI
+      # 3️⃣ Subir container da aplicação com variável de ambiente
       - name: Start app with Docker Compose
         run: |
           cd app
-          export MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          echo "Starting app container..."
           docker compose up -d --build
-          echo "Waiting for app to be ready..."
+          
+          echo "Waiting for app to be ready (checking /health)..."
           for i in {1..30}; do
-            curl -s http://localhost:9090/health && break
+            if curl -s http://localhost:9090/health; then
+              echo "App is ready!"
+              break
+            fi
             echo "Waiting 3s..."
             sleep 3
           done
 
-      # Python + dependências
+      # 4️⃣ Mostrar logs para debug
+      - name: Show app logs
+        run: |
+          cd app
+          docker compose logs app
+
+      # 5️⃣ Python + dependências
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -56,49 +64,12 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
-      # Rodar testes API
+      # 6️⃣ Rodar testes API
       - name: Run API tests
         run: |
           python -m robot -d logs tests/api/
 
-      # Upload resultados
-      - name: Upload API test results
-        uses: actions/upload-artifact@v4
-        with:
-          name: robot-api-test-results
-          path: logs/
-
-  # -------------------------
-  # 2️⃣ Rodar testes Web (mesmo container da API)
-  # -------------------------
-  web-tests:
-    runs-on: ubuntu-latest
-    needs: api-tests
-    steps:
-      # Checkout repositórios
-      - name: Checkout test repo
-        uses: actions/checkout@v3
-
-      - name: Checkout app repo
-        uses: actions/checkout@v3
-        with:
-          repository: Zambom2021/temple-of-rock
-          token: ${{ secrets.TEMPLE_TOKEN }}
-          path: app
-
-      # Python + dependências
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
-
-      - name: Install Python dependencies
-        run: |
-          pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install robotframework-seleniumlibrary selenium requests urllib3
-
-      # Chrome e ChromeDriver
+      # 7️⃣ Chrome e ChromeDriver para testes Web
       - name: Setup Chrome and ChromeDriver
         run: |
           sudo apt-get update
@@ -113,34 +84,22 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/
 
-      # Rodar testes Web
+      # 8️⃣ Rodar testes Web
       - name: Run Robot Framework Web tests
         run: |
           export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox"
           python -m robot -d logs tests/web/
 
-      # Upload resultados
-      - name: Upload Web test results
+      # 9️⃣ Upload resultados
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: robot-web-test-results
+          name: robot-test-results
           path: logs/
 
-  # -------------------------
-  # 3️⃣ Finalizar container da aplicação
-  # -------------------------
-  cleanup:
-    runs-on: ubuntu-latest
-    needs: [api-tests, web-tests]
-    steps:
-      - name: Checkout app repo
-        uses: actions/checkout@v3
-        with:
-          repository: Zambom2021/temple-of-rock
-          token: ${{ secrets.TEMPLE_TOKEN }}
-          path: app
-
+      # 🔟 Docker Compose down
       - name: Docker Compose down
+        if: always()
         run: |
           cd app
           docker compose down -v
