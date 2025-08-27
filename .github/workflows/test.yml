@@ -9,14 +9,36 @@ on:
 
 jobs:
   # -------------------------
-  # 1️⃣ Testes API
+  # 1️⃣ Testes API (dependem da aplicação)
   # -------------------------
   api-tests:
     runs-on: ubuntu-latest
     steps:
+      # Checkout repositórios
       - name: Checkout test repo
         uses: actions/checkout@v3
 
+      - name: Checkout app repo
+        uses: actions/checkout@v3
+        with:
+          repository: Zambom2021/temple-of-rock
+          token: ${{ secrets.TEMPLE_TOKEN }}
+          path: app
+
+      # Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Subir containers da aplicação
+      - name: Start app with Docker Compose
+        run: |
+          cd app
+          docker compose up -d --build
+          for i in {1..20}; do
+            curl -s http://localhost:9090/health && break || sleep 3
+          done
+
+      # Python + dependências
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -28,15 +50,24 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
+      # Rodar testes API
       - name: Run API tests
         run: |
           python -m robot -d logs tests/api/
 
+      # Upload resultados
       - name: Upload API test results
         uses: actions/upload-artifact@v4
         with:
           name: robot-api-test-results
           path: logs/
+
+      # Docker Compose down
+      - name: Docker Compose down
+        if: always()
+        run: |
+          cd app
+          docker compose down -v
 
   # -------------------------
   # 2️⃣ Testes Web (dependem da aplicação)
@@ -95,8 +126,8 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/
 
-      # Rodar testes Robot Framework Web
-      - name: Run Web tests
+      # Rodar testes Web
+      - name: Run Robot Framework Web tests
         run: |
           export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox"
           python -m robot -d logs tests/web/
