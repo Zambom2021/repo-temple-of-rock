@@ -33,9 +33,9 @@ jobs:
       - name: Start app with Docker Compose
         run: |
           cd app
-          # Passa MONGODB_URI via env e expõe a porta 9090
-          docker compose up -d --build \
-            -e MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          # Define a variável de ambiente para o docker compose
+          export MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          docker compose up -d --build
           echo "Waiting for app to be ready..."
           for i in {1..30}; do
             curl -s http://localhost:9090/health && break
@@ -99,8 +99,9 @@ jobs:
       - name: Start app with Docker Compose
         run: |
           cd app
-          docker compose up -d --build \
-            -e MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          # Define a variável de ambiente para o docker compose
+          export MONGODB_URI="${{ secrets.MONGODB_URI }}"
+          docker compose up -d --build
           echo "Waiting for app to be ready..."
           for i in {1..30}; do
             curl -s http://localhost:9090/health && break
