@@ -2,9 +2,9 @@ name: Run Robot Framework Tests
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   pull_request:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 env:
@@ -14,7 +14,9 @@ jobs:
   run-tests:
     runs-on: ubuntu-latest
     steps:
-      # 1️⃣ Checkout repositórios
+      # -------------------------
+      # Checkout repositórios
+      # -------------------------
       - name: Checkout test repo
         uses: actions/checkout@v3
 
@@ -25,34 +27,37 @@ jobs:
           token: ${{ secrets.TEMPLE_TOKEN }}
           path: app
 
-      # 2️⃣ Docker Buildx
+      # -------------------------
+      # Docker Buildx
+      # -------------------------
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 3️⃣ Subir container da aplicação com variável de ambiente
+      # -------------------------
+      # Subir container da aplicação com variável de ambiente
+      # -------------------------
       - name: Start app with Docker Compose
         run: |
           cd app
-          echo "Starting app container..."
           docker compose up -d --build
-          
-          echo "Waiting for app to be ready (checking /health)..."
+          echo "Waiting for app to be ready..."
           for i in {1..30}; do
-            if curl -s http://localhost:9090/health; then
-              echo "App is ready!"
-              break
-            fi
+            curl -s http://localhost:9090/health && break
             echo "Waiting 3s..."
             sleep 3
           done
 
-      # 4️⃣ Mostrar logs para debug
-      - name: Show app logs
+      # -------------------------
+      # Debug MongoDB connection
+      # -------------------------
+      - name: Check MongoDB connection
         run: |
-          cd app
-          docker compose logs app
+          docker compose exec app sh -c "echo \$MONGODB_URI"
+          docker compose exec app sh -c "node -e \"require('mongoose').connect(process.env.MONGODB_URI).then(() => console.log('Mongo connected')).catch(console.error)\""
 
-      # 5️⃣ Python + dependências
+      # -------------------------
+      # Python + dependências
+      # -------------------------
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -64,12 +69,9 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
-      # 6️⃣ Rodar testes API
-      - name: Run API tests
-        run: |
-          python -m robot -d logs tests/api/
-
-      # 7️⃣ Chrome e ChromeDriver para testes Web
+      # -------------------------
+      # Chrome e ChromeDriver
+      # -------------------------
       - name: Setup Chrome and ChromeDriver
         run: |
           sudo apt-get update
@@ -84,20 +86,33 @@ jobs:
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/
 
-      # 8️⃣ Rodar testes Web
-      - name: Run Robot Framework Web tests
+      # -------------------------
+      # Rodar testes API
+      # -------------------------
+      - name: Run API tests
+        run: |
+          python -m robot -d logs tests/api/
+
+      # -------------------------
+      # Rodar testes Web
+      # -------------------------
+      - name: Run Web tests
         run: |
           export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox"
           python -m robot -d logs tests/web/
 
-      # 9️⃣ Upload resultados
+      # -------------------------
+      # Upload resultados
+      # -------------------------
       - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
           name: robot-test-results
           path: logs/
 
-      # 🔟 Docker Compose down
+      # -------------------------
+      # Docker Compose down
+      # -------------------------
       - name: Docker Compose down
         if: always()
         run: |
