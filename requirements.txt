@@ -4,3 +4,5 @@ selenium
 webdriver-manager
 robotframework-faker
 httpx
+robotframework-jsonlibrary
+robotframework-requests
