@@ -58,29 +58,29 @@ jobs:
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
 
-      # -------------------------
-      # Chrome e ChromeDriver
-      # -------------------------
-      - name: Setup Chrome and ChromeDriver
+    # -------------------------
+    # ChromeDriver (apenas) - usa Chrome já instalado
+    # -------------------------
+      - name: Setup ChromeDriver
         run: |
           sudo apt-get update
           sudo apt-get install -y unzip wget xvfb
-
-          # Descobre a versão principal do Chrome já instalada
-          CHROME_VERSION=$(google-chrome-stable --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
+    
+          # Descobre a versão principal do Chrome já instalado
+          CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
           echo "Google Chrome version: $CHROME_VERSION"
-
-          # Baixa o ChromeDriver compatível
+    
+          # Baixa ChromeDriver compatível
           wget -q "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" -O chromedriver_version
           CHROMEDRIVER_VERSION=$(cat chromedriver_version)
           echo "ChromeDriver version: $CHROMEDRIVER_VERSION"
-
+      
           wget -q "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/
-
-          google-chrome-stable --version
+      
+          google-chrome --version
           chromedriver --version
 
       # -------------------------
