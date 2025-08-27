@@ -1,51 +1,49 @@
-name: CI Pipeline
+name: Run Robot Framework Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
-  workflow_dispatch:   # 🔹 permite rodar manualmente pelo botão "Run workflow"
+    branches: [ "main" ]
+  workflow_dispatch: # permite rodar manualmente
 
 jobs:
   run-tests:
     runs-on: ubuntu-latest
 
     steps:
-    # 1️⃣ Checkout do repositório de testes
-    - name: Checkout repo de testes
+    # 1️⃣ Checkout do repo de testes
+    - name: Checkout test repo
       uses: actions/checkout@v3
 
-    # 2️⃣ Checkout do repositório da aplicação privada
-    - name: Checkout private repo
-      uses: actions/checkout@v4
+    # 2️⃣ Checkout do repo da aplicação (privado)
+    - name: Checkout app repo
+      uses: actions/checkout@v3
       with:
         repository: Zambom2021/temple-of-rock
-        ref: main   # ou master
-        token: ${{ secrets.PAT_TOKEN }}
+        token: ${{ secrets.TEMPLE_TOKEN }}
         path: app
 
-    # 3️⃣ Setup Docker
-    - name: Set up Docker
-      uses: docker/setup-buildx-action@v3
-
-    # 4️⃣ Subir containers via docker-compose
-    - name: Docker Compose up
+    # 3️⃣ Subir containers da aplicação
+    - name: Start app with Docker
       run: |
-        docker-compose up --build --abort-on-container-exit
+        cd app
+        docker-compose up -d --build
+        sleep 15  # tempo para app subir
 
-    # 5️⃣ Capturar logs
-    - name: Show container logs
-      run: docker-compose logs
+    # 4️⃣ Instalar Robot Framework
+    - name: Install Robot Framework
+      run: |
+        pip install robotframework
 
-    # 6️⃣ Upload de artifacts do Robot Framework
+    # 5️⃣ Rodar os testes
+    - name: Run Robot Framework tests
+      run: |
+        robot -d logs tests/
+
+    # 6️⃣ Upload resultados
     - name: Upload test results
       uses: actions/upload-artifact@v4
       with:
         name: robot-test-results
         path: logs/
-
-
-    # 7️⃣ Limpar containers e volumes
-    - name: Docker Compose down
-      run: docker-compose down -v
