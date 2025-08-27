@@ -57,14 +57,15 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements.txt
           pip install robotframework-seleniumlibrary selenium requests urllib3
-          
+
       # -------------------------
       # Setup ChromeDriver compatível
       # -------------------------
       - name: Setup ChromeDriver
         run: |
-          sudo apt-get update
-          sudo apt-get install -y unzip wget xvfb
+          # Atualiza lista de pacotes (ignora erros)
+          sudo apt-get update || true
+          sudo apt-get install -y unzip wget xvfb || true
       
           # Descobre a versão principal do Chrome já instalado
           CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
