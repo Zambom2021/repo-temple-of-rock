@@ -9,7 +9,7 @@ ${BROWSER}            chrome
 *** Keywords ***
 
 Abrir Navegador 
-    ${opts}=    Get Chrome Options
+    ${opts}=        Get Chrome Options
     Open Browser    browser=${BROWSER}    options=${opts}    
     
 Fechar Navegador
@@ -104,23 +104,37 @@ digito o nome da banda "${band_Name}" e clico em Editar
     Input Text    id=searchBand    ${band_Name}
     Click Button    xpath=//button[contains(.,'Editar Banda')]
 
-preencho o formulario de Editar Banda e clico em Salvar
-    Wait Until Page Contains Element    xpath=//h2[contains(.,'Editar Banda')]
-    # Captura o valor original dos campos 
-    ${original_country}=    Get Value    id=editCountry  
-    ${original_members}=    Get Value    id=editMembers  
-    ${original_Year}=       Get Value    id=editFormationYear 
+Preencho o formulario de Editar Banda e clico em Salvar
+    Wait Until Page Contains Element    xpath=//h2[contains(.,'Editar Banda')]    timeout=10s
 
-    # Gera novos valores para os campos 
+    # Captura os valores originais dos campos
+    ${original_country}=    Get Value    id=editCountry
+    ${original_members}=    Get Value    id=editMembers
+    ${original_Year}=       Get Value    id=editFormationYear
+
+    # Gera novos valores
     ${new_country}=          Generate Country
     ${new_members}=          Generate Members    4
     ${new_formation_year}=   Generate Formation Year
 
-    Input Text    id=editCountry             ${new_country} 
-    Input Text    id=editMembers             ${new_members} 
-    Input Text    id=editFormationYear       ${new_formation_year}  
+    # Espera até os campos estarem visíveis e interagíveis
+    Wait Until Element Is Visible    id=editCountry    timeout=10s
+    Wait Until Element Is Enabled    id=editCountry    timeout=10s
+    Scroll Element Into View         id=editCountry
+    Input Text                       id=editCountry    ${new_country}
+
+    Wait Until Element Is Visible    id=editMembers    timeout=10s
+    Wait Until Element Is Enabled    id=editMembers    timeout=10s
+    Scroll Element Into View         id=editMembers
+    Input Text                       id=editMembers    ${new_members}
+
+    Wait Until Element Is Visible    id=editFormationYear    timeout=10s
+    Wait Until Element Is Enabled    id=editFormationYear    timeout=10s
+    Scroll Element Into View         id=editFormationYear
+    Input Text                       id=editFormationYear    ${new_formation_year}
+
     # Salva a alteração
-    Click Button      id=saveBtn 
+    Click Button    id=saveBtn
 
 digito o nome da banda "${band_name}" e clico em incluir discos
     Input Text      xpath=//input[@placeholder='Nome da banda']    ${band_name}

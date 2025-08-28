@@ -20,8 +20,12 @@ devo ver os detalhes da Banda
     Page Should Contain    ${banda_nome}
     Capture Page Screenshot
 
-vejo a a mensagem "${mensagem}"
+vejo a mensagem "${mensagem}"
+    # Espera até que a mensagem apareça na página, timeout de 5 segundos
+    Wait Until Page Contains    ${mensagem}    timeout=5s
+    # Tira screenshot após a mensagem aparecer
     Capture Page Screenshot
+    # Confirma que a mensagem está realmente na página
     Page Should Contain    ${mensagem}
 
 valido a mensagem de sucesso
