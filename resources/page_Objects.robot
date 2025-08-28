@@ -5,12 +5,12 @@ Resource          resource.resource
 ${URL}            http://localhost:9090/web
 ${BROWSER_HL}     headlessfirefox
 ${BROWSER}        chrome
-# ${OPTIONS}        --headless --no-sandbox --disable-dev-shm-usage --disable-gpu
+${CHROME_OPTS}    --headless --no-sandbox --disable-dev-shm-usage
 
 *** Keywords ***
 
 Abrir Navegador 
-    Open Browser    browser=${BROWSER}
+    Open Browser    browser=${BROWSER}    
     
 Fechar Navegador
     Close Browser

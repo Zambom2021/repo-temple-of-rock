@@ -95,9 +95,7 @@ jobs:
       # Rodar testes Web
       # -------------------------
       - name: Run Web tests
-        run: |
-          export ROBOT_OPTIONS="--variable BROWSER:chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox --variable OPTIONS3:--disable-dev-shm-usage --variable OPTIONS4:--disable-gpu --variable OPTIONS5:--user-data-dir=/tmp/chrome-$(date +%s)"
-          python -m robot $ROBOT_OPTIONS -d logs tests/web/
+        run: python -m robot -d logs -v BROWSER:chrome -v CHROME_OPTS:"--headless --no-sandbox --disable-dev-shm-usage" tests/web/
 
       # -------------------------
       # Upload resultados
