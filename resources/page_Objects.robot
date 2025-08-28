@@ -5,12 +5,12 @@ Resource          resource.resource
 ${URL}                http://localhost:9090/web
 ${BROWSER_HL}         headlessfirefox
 ${BROWSER}            chrome
-${CHROME_OPTIONS}     --headless --no-sandbox --disable-dev-shm-usage --disable-gpu --remote-debugging-port=9222
+@{CHROME_OPTIONS}     --headless    --no-sandbox    --disable-dev-shm-usage    --disable-gpu    --remote-debugging-port=9222
 
 *** Keywords ***
 
 Abrir Navegador 
-    Open Browser    browser=${BROWSER}    options=${CHROME_OPTIONS}    
+    Open Browser    browser=${BROWSER}    options=@{CHROME_OPTIONS}    
     
 Fechar Navegador
     Close Browser
