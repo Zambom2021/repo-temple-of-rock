@@ -87,34 +87,18 @@ jobs:
       # -------------------------
       # Rodar testes Web
       # -------------------------
-      - name: Run Web tests
+      - name: Run tests
         run: python -m robot -d logs tests/
         continue-on-error: true   # garante que o job continue mesmo se houver falhas
 
       # -------------------------
       # Upload resultados
       # -------------------------
-      - name: Upload Web test results
+      - name: Upload test results
         uses: actions/upload-artifact@v4
         with:
-          name: robot-web-test-results
+          name: robot-test-results
           path: logs/
-
-      # # -------------------------
-      # # Rodar testes API
-      # # -------------------------
-      # - name: Run API tests
-      #   run: |
-      #     python -m robot -d logs tests/api/
-
-      # # -------------------------
-      # # Upload resultados
-      # # -------------------------
-      # - name: Upload API test results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: robot-api-test-results
-      #     path: logs/
 
       # -------------------------
       # Docker Compose down

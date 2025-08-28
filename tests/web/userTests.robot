@@ -2,7 +2,7 @@ Language: pt-br
 *** Settings ***
 Resource   ../../resources/resource.resource  
      
-Test Setup       Abrir Navegador 
+Test Setup       Abrir Navegador    
 Test Teardown    Fechar Navegador
 
 *** Test Cases ***
