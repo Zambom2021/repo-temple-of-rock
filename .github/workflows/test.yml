@@ -92,6 +92,15 @@ jobs:
         continue-on-error: true   # garante que o job continue mesmo se houver falhas
 
       # -------------------------
+      # Upload resultados
+      # -------------------------
+      - name: Upload test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-test-results
+          path: logs/web
+
+      # -------------------------
       # Rodar testes API
       # -------------------------
       - name: Run API tests
@@ -105,7 +114,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: robot-test-results
-          path: logs/
+          path: logs/API
 
       # -------------------------
       # Docker Compose down
