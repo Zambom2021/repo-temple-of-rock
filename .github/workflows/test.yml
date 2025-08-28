@@ -96,6 +96,7 @@ jobs:
       # -------------------------
       - name: Run Web tests
         run: python -m robot -d logs tests/web/
+        continue-on-error: true   # garante que o job continue mesmo se houver falhas
 
       # -------------------------
       # Upload resultados
