@@ -95,10 +95,7 @@ jobs:
       # Rodar testes Web
       # -------------------------
       - name: Run Web tests
-        run: |
-          TMPDIR="/tmp/chrome-$(date +%s)-$RANDOM"
-          mkdir -p $TMPDIR
-          python -m robot -d logs -v BROWSER:chrome -v CHROME_OPTS:"--headless --no-sandbox --disable-dev-shm-usage --disable-gpu --user-data-dir=$TMPDIR" tests/web/
+        run: python -m robot -d logs tests/web/
 
       # -------------------------
       # Upload resultados
