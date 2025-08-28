@@ -9,7 +9,8 @@ ${BROWSER}            chrome
 *** Keywords ***
 
 Abrir Navegador 
-    Open Browser    browser=${BROWSER}    options=${options}    
+    ${opts}=    Get Chrome Options
+    Open Browser    browser=${BROWSER}    options=${opts}    
     
 Fechar Navegador
     Close Browser
