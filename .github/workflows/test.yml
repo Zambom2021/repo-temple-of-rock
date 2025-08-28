@@ -84,19 +84,19 @@ jobs:
           google-chrome --version
           chromedriver --version
 
-      # # -------------------------
-      # # Rodar testes API
-      # # -------------------------
-      # - name: Run API tests
-      #   run: |
-      #     python -m robot -d logs tests/api/
-
       # -------------------------
       # Rodar testes Web
       # -------------------------
       - name: Run Web tests
         run: python -m robot -d logs tests/web/
         continue-on-error: true   # garante que o job continue mesmo se houver falhas
+
+      # -------------------------
+      # Rodar testes API
+      # -------------------------
+      - name: Run API tests
+        run: |
+          python -m robot -d logs tests/api/
 
       # -------------------------
       # Upload resultados
