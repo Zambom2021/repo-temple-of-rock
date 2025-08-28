@@ -41,7 +41,7 @@ jobs:
           for i in {1..30}; do
             curl -s http://localhost:9090/health && break
             echo "Waiting 3s..."
-            sleep 10
+            sleep 3
           done
 
       # -------------------------
@@ -96,8 +96,8 @@ jobs:
       # -------------------------
       - name: Run Web tests
         run: |
-          export ROBOT_OPTIONS="--variable BROWSER:Chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox"
-          python -m robot -d logs tests/web/
+          export ROBOT_OPTIONS="--variable BROWSER:chrome --variable BROWSER_OPTIONS:--headless,--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--user-data-dir=/tmp/chrome-$(date +%s)"
+          python -m robot $ROBOT_OPTIONS -d logs tests/web/
 
       # -------------------------
       # Upload resultados
