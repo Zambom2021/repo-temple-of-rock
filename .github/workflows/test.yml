@@ -96,7 +96,7 @@ jobs:
       # -------------------------
       - name: Run Web tests
         run: |
-          export ROBOT_OPTIONS="--variable BROWSER:chrome --variable BROWSER_OPTIONS:--headless,--no-sandbox,--disable-dev-shm-usage,--disable-gpu,--user-data-dir=/tmp/chrome-$(date +%s)"
+          export ROBOT_OPTIONS="--variable BROWSER:chrome"
           python -m robot $ROBOT_OPTIONS -d logs tests/web/
 
       # -------------------------
