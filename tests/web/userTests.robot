@@ -1,7 +1,8 @@
 Language: pt-br
 *** Settings ***
 Resource   ../../resources/resource.resource  
-     
+
+Suite Setup      Limpar Screenshots Antigas     
 Test Setup       Abrir Navegador    
 Test Teardown    Fechar Navegador
 

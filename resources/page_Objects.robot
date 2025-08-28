@@ -14,6 +14,9 @@ Abrir Navegador
 Fechar Navegador
     Close Browser
 
+Limpar Screenshots Antigas
+    Remove Files    logs/*.png
+
 que acesse a pagina temple Of Rock
     Go To           url=${URL}
 
