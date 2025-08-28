@@ -10,6 +10,7 @@ Library         Collections
 Library         httpx
 Library         ../resources/DateGenerator.py
 Library         ../resources/case_utils.py
+Library         chrome_options.py
 
 Resource        ../resources/keywords.robot
 Resource        ../resources/asserts_web.robot
