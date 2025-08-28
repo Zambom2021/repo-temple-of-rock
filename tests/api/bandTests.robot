@@ -38,18 +38,18 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
     Should Not Be Empty     ${response_body["_id"]}   
     Should Be Equal         ${response_body["name"]}     Metal Factor  
 
-# 03 - Alterar Banda Com Discografia Vazia
-#     [Documentation]    Testa a alteração de uma banda já cadastrada
-#     [Tags]    3   Positive
+03 - Alterar Banda Com Discografia Vazia
+    [Documentation]    Testa a alteração de uma banda já cadastrada
+    [Tags]    3   Positive
     
-#     ${qtd_disc}     Set Variable    5
+    ${qtd_disc}     Set Variable    5
 
-#     ${band_data}    Get All Bands
-#     Log     ${band_data}   
+    ${band_data}    Get All Bands
+    Log     ${band_data}   
 
-#     ${response_Up}    ${request_Up}    ${status_code}
-#     ...    Gera Atualizacao de Discografia da banda
-#     ...    ${band_data}    ${qtd_disc} 
+    ${response_Up}    ${request_Up}    ${status_code}
+    ...    Gera Atualizacao de Discografia da banda
+    ...    ${band_data}    ${qtd_disc} 
 
 04 - Cadastro e Atualização da Banda
     [Documentation]    Testa o cadastro de uma banda com dados dinâmicos.

@@ -20,9 +20,9 @@ Generate Current Year
     ${year}=    DateGenerator.current_year     
     RETURN   ${year}
 
-# Get Numero Aleatorio
-#     ${new_disc}=    Generate Random Number
-#     RETURN    ${new_disc}
+Get Numero Aleatorio
+    ${new_disc}=    Generate Random Number
+    RETURN    ${new_disc}
 
 Generate Date Plus N Days
     [Arguments]    ${days}

@@ -41,7 +41,7 @@ Test Teardown    Fechar Navegador
     Dado que esteja logado na pagina Temple of rock
     E seleciono o ítem "Cadastrar Banda" 
     Quando preencho o formulario de cadastro de Nova Banda
-    Então vejo a a mensagem "Banda cadastrada com sucesso!"
+    Então vejo a mensagem "Banda cadastrada com sucesso!"
 
 12 - Edita o Cadastro Banda 
     [Documentation]    Testa Edição de Cadastro de Banda com Sucesso 
@@ -74,7 +74,7 @@ Test Teardown    Fechar Navegador
     Dado que esteja logado na pagina Temple of rock
     E digito o nome da banda "Last Seek" e clico em incluir discos
     Quando digito o "${disc_title}" e o "${disc_Year}" e clico e Salvar
-    Então vejo a a mensagem "Disco adicionado com sucesso!" 
+    Então vejo a mensagem "Disco adicionado com sucesso!" 
 
 
 
