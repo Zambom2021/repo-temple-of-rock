@@ -5,7 +5,7 @@ Resource          resource.resource
 ${URL}            http://localhost:9090/web
 ${BROWSER_HL}     headlessfirefox
 ${BROWSER}        chrome
-${OPTIONS}        --headless --no-sandbox --disable-dev-shm-usage --disable-gpu
+# ${OPTIONS}        --headless --no-sandbox --disable-dev-shm-usage --disable-gpu
 
 *** Keywords ***
 

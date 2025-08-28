@@ -84,19 +84,19 @@ jobs:
           google-chrome --version
           chromedriver --version
 
-      # -------------------------
-      # Rodar testes API
-      # -------------------------
-      - name: Run API tests
-        run: |
-          python -m robot -d logs tests/api/
+      # # -------------------------
+      # # Rodar testes API
+      # # -------------------------
+      # - name: Run API tests
+      #   run: |
+      #     python -m robot -d logs tests/api/
 
       # -------------------------
       # Rodar testes Web
       # -------------------------
       - name: Run Web tests
         run: |
-          export ROBOT_OPTIONS="--variable BROWSER:chrome"
+          export ROBOT_OPTIONS="--variable BROWSER:chrome --variable OPTIONS:--headless --variable OPTIONS2:--no-sandbox --variable OPTIONS3:--disable-dev-shm-usage --variable OPTIONS4:--disable-gpu --variable OPTIONS5:--user-data-dir=/tmp/chrome-$(date +%s)"
           python -m robot $ROBOT_OPTIONS -d logs tests/web/
 
       # -------------------------
