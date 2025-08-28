@@ -91,14 +91,14 @@ jobs:
         run: python -m robot -d logs tests/web/
         continue-on-error: true   # garante que o job continue mesmo se houver falhas
 
-      # # -------------------------
-      # # Upload resultados
-      # # -------------------------
-      # - name: Upload Web test results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: robot-test-results
-      #     path: logs/
+      # -------------------------
+      # Upload resultados
+      # -------------------------
+      - name: Upload Web test results
+        uses: actions/upload-artifact@v4
+        with:
+          name: robot-test-results
+          path: logs/
 
       # -------------------------
       # Rodar testes API
@@ -107,19 +107,10 @@ jobs:
         run: |
           python -m robot -d logs tests/api/
 
-      # # -------------------------
-      # # Upload resultados
-      # # -------------------------
-      # - name: Upload API test results
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: robot-test-results
-      #     path: logs/
-
-      # # -------------------------
-      # # Upload resultados
-      # # -------------------------
-      - name: Upload all test results
+      # -------------------------
+      # Upload resultados
+      # -------------------------
+      - name: Upload API test results
         uses: actions/upload-artifact@v4
         with:
           name: robot-test-results
