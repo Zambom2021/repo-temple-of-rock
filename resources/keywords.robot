@@ -11,6 +11,7 @@ ${SESSION_ALIAS}      my_session
 
 @{PRE_NAME}          The    Last     Deep    Iron    Metal     Ultimate    Best Of     
 ${BAND_ID}           67101fad793421e6f0cad861
+
 *** Keywords ***
 Generate Current Date
     ${date}=    DateGenerator.current_date     
@@ -34,6 +35,18 @@ Generate Date Minus N Days
     ${date}=    DateGenerator.past_date    ${days}
     RETURN   ${date}
 
+Post Login
+    [Arguments]    ${username}    ${password}
+
+    ${session}          Create Session       ${SESSION_ALIAS}    ${api_url} 
+    ${headers}=         Create Dictionary    Content-Type=application/json
+    ${request_body}=    Create Dictionary    username=${username}    password=${password}
+    ${response}=        POST On Session      ${SESSION_ALIAS}    url=/user/login    json=${request_body}    expected_status=anything         
+    ${status_code}       set variable         ${response.status_code}
+
+    ${response_body}     Convert String To Json    ${response.content} 
+
+    RETURN   ${response_body}    ${request_body}    ${status_code} 
 
 Post User
     [Arguments]    ${useremail}    ${username}    ${password}
@@ -42,11 +55,11 @@ Post User
     ${headers}=         Create Dictionary    Content-Type=application/json
     ${request_body}=    Create Dictionary    email=${useremail}    username=${username}    password=${password}
     ${response}=        POST On Session      ${SESSION_ALIAS}    url=/user/register    json=${request_body}    
-    ${staus_code}       set variable         ${response.status_code}
+    ${status_code}       set variable         ${response.status_code}
 
     ${response_body}     Convert String To Json    ${response.content} 
 
-    RETURN   ${response_body}    ${request_body}    ${staus_code} 
+    RETURN   ${response_body}    ${request_body}    ${status_code} 
 
 Post Invalid User
     [Arguments]    ${useremail}    ${username}    ${password}
@@ -55,11 +68,11 @@ Post Invalid User
     ${headers}=         Create Dictionary    Content-Type=application/json
     ${request_body}=    Create Dictionary    email=${useremail}    username=${username}    password=${password}
     ${response}=        POST On Session      ${SESSION_ALIAS}    url=/user/register    json=${request_body}     expected_status=anything
-    ${staus_code}       set variable         ${response.status_code}
+    ${status_code}       set variable         ${response.status_code}
 
     ${response_body}     Convert String To Json    ${response.content} 
 
-    RETURN   ${response_body}    ${request_body}    ${staus_code} 
+    RETURN   ${response_body}    ${request_body}    ${status_code} 
 
 Get Response Body
     [Arguments]    ${response}
@@ -73,8 +86,8 @@ Post Band
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${request_body}=       Create Dictionary     name=${band_name}     genre=${genre}     members=${members}    formationYear=${formation_year}    country=${country}    discography=${discography}
     ${response}=    POST On Session    ${SESSION_ALIAS}    url=/bands    json=${request_body}
-    ${staus_code}   convert to string    ${response.status_code} 
-    Should Be Equal    ${staus_code}    201
+    ${status_code}   convert to string    ${response.status_code} 
+    Should Be Equal    ${status_code}    201
     
     ${response_body} =    Set Variable     ${response.content}
 
@@ -137,22 +150,32 @@ Get Band by name
 
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
     ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands/search?name=${band_Name}
-    ${staus_code}   convert to string    ${response.status_code} 
+    ${status_code}   convert to string    ${response.status_code} 
 
     &{band_data}     Set Variable   ${response.json()}
  
-    RETURN    ${band_data}    ${staus_code}
+    RETURN    ${band_data}    ${status_code}
 
 Get All Bands
     [Arguments]    
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
     ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands
-    ${staus_code}   convert to string    ${response.status_code} 
+    ${status_code}   convert to string    ${response.status_code} 
 
     ${band_data}     Set Variable   ${response.json()} 
     ${empty_band}    find_empty_discography    ${band_data}    
 
     RETURN    ${empty_band}    
+
+
+Delete Band
+    [Arguments]    ${band_id}
+
+    ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
+    ${response}=    DELETE On Session    ${SESSION_ALIAS}    url=bands/${band_id}
+    ${status_code}   convert to string    ${response.status_code} 
+ 
+    RETURN       ${status_code}
 
 
 que eu gere dados validos para cadastro de usuario

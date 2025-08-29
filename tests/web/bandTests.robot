@@ -21,10 +21,8 @@ Test Teardown    Fechar Navegador
 
     Dado que acesse a pagina temple Of Rock
     E digito a letra "t" e clico no botão de busca
-    ${banda_nome}    
-    ...    Quando seleciono uma Banda na lista
-    Então devo ver os detalhes da Banda    
-    ...    ${banda_nome} 
+    ${banda_nome}    Quando seleciono uma Banda na lista
+    Então devo ver os detalhes da Banda    ${banda_nome} 
     
 10 - Consulta de Banda por Nome
     [Documentation]    Testa a Consulta de Banda por Nome
@@ -32,8 +30,7 @@ Test Teardown    Fechar Navegador
 
     Dado que acesse a pagina temple Of Rock   
     Quando digito o nome "Deep Spring" clico no botão de busca 
-    Então devo ver os detalhes da Banda
-    ...    Deep Spring           
+    Então devo ver os detalhes da Banda    Deep Spring           
 
 11 - Cadastro de uma nova Banda 
     [Documentation]    Testa o Cadastro de uma nova Banda 
@@ -77,7 +74,21 @@ Test Teardown    Fechar Navegador
     Quando digito o "${disc_title}" e o "${disc_Year}" e clico e Salvar
     Então vejo a mensagem "Disco adicionado com sucesso!" 
 
+15 - Consulta Lista de Bandas pela letra Inicial do Nome Inexistente
+    [Documentation]    Testa a Consulta de Lista de Bandas pela letra Inicial do Nome Inexistente   
+    [Tags]    15
 
+    Dado que acesse a pagina temple Of Rock
+    Quando digito a letra "j" e clico no botão de busca
+    Então vejo a mensagem "Nenhuma banda encontrada para essa letra."
+
+16 - Consulta de Banda Não Cadastrada
+    [Documentation]    Testa a Consulta não cadastrada
+    [Tags]    16
+
+    Dado que acesse a pagina temple Of Rock
+    Quando digito o nome "UFO" clico no botão de busca 
+    Então vejo a mensagem "Erro ao buscar banda: Erro ao buscar a banda. Código: 404"
 
  
      

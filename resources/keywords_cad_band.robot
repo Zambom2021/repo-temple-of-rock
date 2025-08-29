@@ -16,14 +16,14 @@ Gera Cadastro de banda
     ${headers}=    Create Dictionary    Content-Type=application/json
     ${request_body}=    Update json Gera Cadastro de banda    ${payload}    ${band_name}    ${genre}    ${members}    ${formation_year}    ${country}    ${qtd}
 
-    ${response}=    POST On Session    ${SESSION_ALIAS}    url=/bands    json=${request_body}
-    ${staus_code}   convert to string    ${response.status_code} 
+    ${response}=    POST On Session    ${SESSION_ALIAS}    url=/bands    json=${request_body}    expected_status=anything 
+    ${status_code}   convert to string    ${response.status_code} 
     
     
     ${response_body} =    Set Variable     ${response.content}
     &{response_json}=     Convert For JSON    ${response_body}
 
-    RETURN   ${response_json}    ${request_body}    ${staus_code}
+    RETURN   ${response_json}    ${request_body}    ${status_code}
 
 Update json Gera Cadastro de banda
     [Arguments]    ${payload}    ${band_name}    ${genre}    ${members}    ${formation_year}    ${country}    ${qtd}
@@ -68,13 +68,13 @@ Gera Atualizacao de Discografia da banda
     ${request_body}=    Update json Atualiza Discos de banda    ${payload}    ${band_data}    ${qtd} 
 
     ${response}=    PUT On Session    ${SESSION_ALIAS}    url=/bands/${band_data["_id"]}   json=${request_body}
-    ${staus_code}   convert to string    ${response.status_code} 
+    ${status_code}   convert to string    ${response.status_code} 
     
     
     ${response_body} =    Set Variable     ${response.content}
     &{response_json}=     Convert For JSON    ${response_body}
 
-    RETURN   ${response_json}    ${request_body}    ${staus_code}
+    RETURN   ${response_json}    ${request_body}    ${status_code}
 
 Update json Atualiza Discos de banda
     [Arguments]    ${payload}    ${band_data}     ${qtd}

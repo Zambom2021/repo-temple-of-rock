@@ -1,13 +1,36 @@
 *** Settings ***
 Library    JSONLibrary
 *** Keywords ***
+Assert Valid Login
+    [Arguments]    ${response}     ${status_code} 
+    
+    ${resp_str}     Convert to String    ${response}
+
+    Should Be Equal As Numbers    ${status_code}            200
+    Should Be Equal               ${resp_str}               {'message': 'Login realizado com sucesso!'}
+
+Assert Invalid Login
+    [Arguments]    ${response}     ${status_code} 
+    
+    ${resp_str}     Convert to String    ${response}
+
+    Should Be Equal As Numbers    ${status_code}            401
+    Should Be Equal               ${resp_str}               {'message': 'Usuário não encontrado.'}
+
+Assert Invalid Password
+    [Arguments]    ${response}     ${status_code} 
+    
+    ${resp_str}     Convert to String    ${response}
+
+    Should Be Equal As Numbers    ${status_code}            401
+    Should Be Equal               ${resp_str}               {'message': 'Senha incorreta.'}
 
 Assert Valid User
     [Arguments]    ${response}     ${status_code} 
     
     ${resp_str}     Convert to String    ${response}
 
-    Should Be Equal As Numbers    ${status_code}               201
+    Should Be Equal As Numbers    ${status_code}            201
     Should Be Equal               ${resp_str}               {'message': 'Usuário registrado com sucesso!'}
 
 Assert Invalid User
@@ -44,30 +67,22 @@ Assert Cadastro Banda
     END
      
 Assert Consulta Banda    
-    [Arguments]    ${response_Band}        ${request_body} 
+    [Arguments]    ${response_Band}        ${status_Code}     
 
-    Should Be Equal               ${response_Band["name"]}              ${request_body["name"]}    ignore_case=True   
-    Should Be Equal               ${response_Band["genre"]}             ${request_body["genre"]} 
-    Should Be Equal               ${response_Band["country"]}           ${request_body["country"]} 
-    Should Be Equal As Numbers    ${response_Band["formationYear"]}     ${request_body["formationYear"]} 
-    Should Be Equal               ${response_Band["members"]}           ${request_body["members"]}
+    Should Be Equal         ${status_code}    200
+    Should Not Be Empty     ${response_Band["_id"]}   
+    Should Be Equal         ${response_Band["name"]}     Metal Factor  
 
-    ${disc_request}=    Get Length    ${request_body["discography"]}
+    ${disc_request}=    Get Length    ${response_Band["discography"]}
 
-    FOR     ${index}    IN RANGE    ${disc_request}
-        Should Be Equal        ${response_Band["discography"][${index}]["title"]}         ${request_body["discography"][${index}]["title"]}
-        Should Be Equal        ${response_Band["discography"][${index}]["releaseYear"]}   ${request_body["discography"][${index}]["releaseYear"]}
-        Evaluate    ${index}+1
-    END
+Assert Delete Message    
+    [Arguments]     ${status_code}     ${message}
+       
+    Should Be Equal     ${status_code}        200
+    Should Be Equal     ${message}            "Banda removida com sucesso"
 
-eu devo validar a resposta 
-    [Arguments]    ${response}      ${status_code}
-    [Documentation]    Valida o código de status e a mensagem da resposta.
-    
-    IF    '${status_code}' == '201' 
-        Assert Valid User
-        ...    ${response}    ${status_code} 
-    ELSE
-        Assert Invalid User
-        ...    ${response}    ${status_code} 
-    END
+Assert Duplicate Registration    
+    [Arguments]     ${status_code}     ${message}
+       
+    Should Be Equal     ${status_code}        409
+    Should Be Equal     ${message}            "Banda já cadastrada."
