@@ -80,7 +80,7 @@ Test Teardown    Fechar Navegador
 
     Dado que acesse a pagina temple Of Rock
     Quando digito a letra "j" e clico no botão de busca
-    Então vejo a mensagem "Nenhuma banda encontrada para essa letra."
+    Então vejo a mensagem "Nenhuma banda encontrada."
 
 16 - Consulta de Banda Não Cadastrada
     [Documentation]    Testa a Consulta não cadastrada
@@ -89,6 +89,14 @@ Test Teardown    Fechar Navegador
     Dado que acesse a pagina temple Of Rock
     Quando digito o nome "UFO" clico no botão de busca 
     Então vejo a mensagem "Erro ao buscar banda: Erro ao buscar a banda. Código: 404"
+
+17 - Consulta Lista de Bandas pela letra Inicial do Nome Vazio
+    [Documentation]    Testa a Consulta de Lista de Bandas pela letra Inicial do Nome vazio   
+    [Tags]    17
+
+    Dado que acesse a pagina temple Of Rock
+    Quando digito a letra " " e clico no botão de busca
+    Então vejo a mensagem "Letra inválida."
 
  
      

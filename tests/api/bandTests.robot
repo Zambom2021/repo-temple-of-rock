@@ -113,4 +113,19 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
 
     Assert Duplicate Registration     ${status_code}     "Banda já cadastrada." 
     
-    
+
+08 - Consultar Lista de Bandas pela Primeira Letra do Nome
+    [Documentation]    Testa a consulta de uma banda pela primeira letra do nome
+    [Tags]    8   Positive
+
+    ${response_body}    ${status_code}    Get Band by letter    b    
+
+    Assert List Band    ${response_body}    ${status_code}    B 
+
+09 - Consultar Lista de Todas as Bandas
+    [Documentation]    Testa a consulta de todas as bandas
+    [Tags]    9   Positive
+
+    ${response_body}    ${status_code}    Get Band by letter    ${EMPTY}    
+
+    Assert List Band    ${response_body}    ${status_code}    ${EMPTY}  

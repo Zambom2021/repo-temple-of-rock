@@ -75,6 +75,16 @@ Assert Consulta Banda
 
     ${disc_request}=    Get Length    ${response_Band["discography"]}
 
+Assert List Band    
+    [Arguments]    ${response_Band}        ${status_Code}    ${letter}  
+
+    Should Be Equal         ${status_code}    200
+    
+    FOR    ${band}    IN    @{response_Band}
+        Should Not Be Empty    ${band["_id"]}
+        Should Contain         ${band["name"]}    ${letter}
+    END
+    
 Assert Delete Message    
     [Arguments]     ${status_code}     ${message}
        

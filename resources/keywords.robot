@@ -156,6 +156,17 @@ Get Band by name
  
     RETURN    ${band_data}    ${status_code}
 
+Get Band by letter
+    [Arguments]    ${letter}
+
+    ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
+    ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands/startingWith?letter=${letter}
+    ${status_code}   convert to string    ${response.status_code} 
+
+    ${band_data}     Set Variable   ${response.json()}
+ 
+    RETURN    ${band_data}    ${status_code}
+
 Get All Bands
     [Arguments]    
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
