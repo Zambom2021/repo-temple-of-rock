@@ -113,7 +113,6 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
 
     Assert Duplicate Registration     ${status_code}     "Banda já cadastrada." 
     
-
 08 - Consultar Lista de Bandas pela Primeira Letra do Nome
     [Documentation]    Testa a consulta de uma banda pela primeira letra do nome
     [Tags]    8   Positive

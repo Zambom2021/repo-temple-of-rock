@@ -52,7 +52,6 @@ Test Teardown    Fechar Navegador
     Quando digito os dados de usuario "ADMINISTRADOR" e senha "123" e clico no botão login
     Então devo ver a mensagem "Usuário ou senha incorretos."
 
-
 06 - Login com Usuario em Branco
     [Documentation]    Testa o Login com usuário em Branco
     [Tags]    6
