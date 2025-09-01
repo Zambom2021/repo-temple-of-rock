@@ -6,22 +6,22 @@ O projeto utiliza **Robot Framework** para automação de testes, incluindo test
 # 🖥️ Para executar os testes Web:
 
 ## 🌟 Chrome:
-robot -d ./logs tests/web/
+`robot -d ./logs tests/web/`
 
 ## 🌟 Firefox:
-robot -d ./logs -v BROWSER:firefox tests/web/
+`robot -d ./logs -v BROWSER:firefox tests/web/`
 
 ## 👻 Headless:
-robot -d ./logs -v BROWSER:headlesschrome tests/web/
-robot -d ./logs -v BROWSER:headlessfirefox tests/web/
+`robot -d ./logs -v BROWSER:headlesschrome tests/web/`
+`robot -d ./logs -v BROWSER:headlessfirefox tests/web/`
 
 💡 Dica: Para validar a interface localmente, utilize os navegadores em modo normal (não headless).
 
 🏹 Para executar testes API:
-robot -d ./logs tests/api/
+`robot -d ./logs tests/api/`
 
 ⚡ Para executar todos os testes de uma vez (Web + API):
-python -m robot -d logs tests/web tests/api
+`python -m robot -d logs tests/web tests/api`
 
 📸 Logs e screenshots:
 - Todas as screenshots das execuções são salvas na pasta `logs/`.
@@ -48,7 +48,7 @@ Aproveite os artifacts do GitHub Actions para analisar falhas sem precisar rodar
 
 ⚠️ Observação: Mantenha o navegador atualizado para evitar problemas de compatibilidade nos testes Web.
 
-
+___
 💀🤘🎸 Developed by: Ricardo Zambom 🤘🎸💀
 
  

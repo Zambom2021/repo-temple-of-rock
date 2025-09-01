@@ -128,3 +128,4 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
     ${response_body}    ${status_code}    Get Band by letter    ${EMPTY}    
 
     Assert List Band    ${response_body}    ${status_code}    ${EMPTY}  
+
