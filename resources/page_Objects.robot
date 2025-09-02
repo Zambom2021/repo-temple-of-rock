@@ -90,13 +90,15 @@ preencho o formulario de cadastro de Nova Banda
     Click Button         xpath=//button[@onclick='openRegisterBandModal()']
     ${band_name}=        Get Band Name
     ${genre}=            Generate Genres
-    ${members}=          Generate Members    4
+    @{members}=          Generate Members    4
+    ${members_str}=    Evaluate     "," .join(${members})   
+
     ${formation_year}=   Generate Formation Year 
     ${country}=          Generate Country
     # ${discography}=      FakerLibrary.Words    3
     Input Text    id=bandName         ${band_name}
     Input Text    id=genre            ${genre}
-    Input Text    id=members          ${members}
+    Input Text    id=members          ${members_str}
     Input Text    id=formationYear    ${formation_year}
     Input Text    id=origin           ${country}
     Click Button    xpath=//button[@type='submit'][contains(.,'Cadastrar')]
@@ -116,7 +118,10 @@ Preencho o formulario de Editar Banda e clico em Salvar
 
     # Gera novos valores
     ${new_country}=          Generate Country
-    ${new_members}=          Generate Members    4
+    @{new_members}=          Generate Members    4
+
+    ${newMembers_str}=    Evaluate     "," .join(${new_members})            
+
     ${new_formation_year}=   Generate Formation Year
 
     # Espera até os campos estarem visíveis e interagíveis
@@ -128,7 +133,7 @@ Preencho o formulario de Editar Banda e clico em Salvar
     Wait Until Element Is Visible    id=editMembers    timeout=10s
     Wait Until Element Is Enabled    id=editMembers    timeout=10s
     Scroll Element Into View         id=editMembers
-    Input Text                       id=editMembers    ${new_members}
+    Input Text                       id=editMembers    ${newMembers_str}
 
     Wait Until Element Is Visible    id=editFormationYear    timeout=10s
     Wait Until Element Is Enabled    id=editFormationYear    timeout=10s

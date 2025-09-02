@@ -71,7 +71,7 @@ Resource    ${EXECDIR}/resources/keywords_cad_band.robot
     
     ${qtd_disc}     Set Variable    10
 
-    ${band_data}    ${status_code}    Get Band by name     Metal Factor
+    ${band_data}    ${status_code}    Get Band by name     Ultimate school
 
     ${response_Up}    ${request_Up}    ${status_code}
     ...    Gera Atualizacao de Discografia da banda

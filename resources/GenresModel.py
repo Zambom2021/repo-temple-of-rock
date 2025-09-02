@@ -7,7 +7,15 @@ class GenresModel:
             '{first} ',
         ]
         # Exemplos de primeiros, médios e últimos nomes
-        self.generos = ['Rock','Heavy Metal', 'Classic Metal', 'Blues', 'Black Metal', 'Progressive', 'Punk' ]
+        self.generos = ['Hard Rock',  
+            'Heavy Metal', 
+            'Punk',  
+            'Blues', 
+            'Classic Rock', 
+            'Symphonic Metal',
+            'Progressive Metal', 
+            'Vicking Metal',
+            'Black Metal' ]
 
     def random_element(self, elements):
         return random.choice(elements)
