@@ -96,3 +96,33 @@ Assert Duplicate Registration
        
     Should Be Equal     ${status_code}        409
     Should Be Equal     ${message}            "Banda já cadastrada."
+
+Assert Update Band   
+    [Arguments]    ${response_Up}    ${request_Up}    ${status_code}
+
+    Should Be Equal               ${status_code}                      200
+    Should Not Be Empty           ${response_Up["_id"]}
+    Should Be Equal As Strings    ${response_Up["name"]}              ${request_Up["name"]}        ignore_case=True  
+    Should Be Equal As Strings    ${response_Up["genre"]}             ${request_Up["genre"]} 
+    Should Be Equal As Strings    ${response_Up["country"]}           ${request_Up["country"]} 
+    Should Be Equal As Numbers    ${response_Up["formationYear"]}     ${request_Up["formationYear"]} 
+    Should Be Equal               ${response_Up["members"]}           ${request_Up["members"]}    
+    Should Not Be Empty           ${response_Up["discography"]}     
+
+Assert Invalid Band Registration         
+    [Arguments]     ${status_code}     ${message}
+       
+    Should Be Equal     ${status_code}        400
+    Should Be Equal     ${message}            "Band validation failed: name: Path `name` is required."
+
+Assert Invalid Year Formation Band       
+    [Arguments]     ${status_code}     ${message}
+       
+    Should Be Equal     ${status_code}        400
+    Should Be Equal     ${message}            "Ano de formação inválido."
+
+Assert Band Not Found    
+    [Arguments]     ${status_code}    ${message}
+
+    Should Be Equal As Numbers    ${status_code}     404
+    Should Be Equal               ${message}         "message":"Banda não encontrada."

@@ -80,6 +80,11 @@ Update json Atualiza Discos de banda
     [Arguments]    ${payload}    ${band_data}     ${qtd}
 
     ${year_int}        Convert to Integer    ${band_data["formationYear"]}
+    # IF    ${band_data} == None
+    #     Fail    "band_data não pode ser None"
+    # ELSE
+    #     ${year_int}=    Convert To Integer    ${band_data["formationYear"]}
+    # END
     ${current_Year}    Generate Current Year
     
     # Atualiza o payload usando o dicionário original

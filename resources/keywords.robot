@@ -5,6 +5,7 @@ Library     ../resources/modelPayload.py
 Library     ../resources/GenresModel.py
 Library     JsonConverter.py
 
+
 *** Variables ***
 ${api_url}            http://localhost:9090/api
 ${SESSION_ALIAS}      my_session
@@ -149,7 +150,7 @@ Get Band by name
     [Arguments]    ${band_Name}
 
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
-    ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands/search?name=${band_Name}
+    ${response}=    Get On Session    ${SESSION_ALIAS}    url=bands/search?name=${band_Name}    expected_status=anything
     ${status_code}   convert to string    ${response.status_code} 
 
     &{band_data}     Set Variable   ${response.json()}
@@ -183,10 +184,12 @@ Delete Band
     [Arguments]    ${band_id}
 
     ${session}      Create Session    ${SESSION_ALIAS}    ${api_url} 
-    ${response}=    DELETE On Session    ${SESSION_ALIAS}    url=bands/${band_id}
+    ${response}=    DELETE On Session    ${SESSION_ALIAS}    url=bands/${band_id}       expected_status=anything
     ${status_code}   convert to string    ${response.status_code} 
+
+    # ${response_body}     Set Variable   ${response.json()} 
  
-    RETURN       ${status_code}
+    RETURN       ${status_code}      
 
 
 que eu gere dados validos para cadastro de usuario
