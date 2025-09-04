@@ -1,10 +1,5 @@
 *** Settings ***
-Resource    ../resources/resource.resource
-Library     ../resources/NameGenerator.py
-Library     ../resources/modelPayload.py
-Library     ../resources/GenresModel.py
-Library     JsonConverter.py
-
+Resource    ${EXECDIR}/resources/libs.resource
 
 *** Variables ***
 ${api_url}            http://localhost:9090/api

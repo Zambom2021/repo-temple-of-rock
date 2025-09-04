@@ -1,4 +1,5 @@
 *** Settings ***
+Resource          libs.resource
 Resource          resource.resource
 
 *** Variables ***
@@ -23,7 +24,7 @@ que acesse a pagina temple Of Rock
 que acesse a opcao de login
     Click Link    Login
 
-digito os dados para cadastrar um Novo usuario e clico no botão registrar
+digitar os dados para cadastrar um Novo usuario e clico no botão registrar
     ${useremail}      Generate Valid email
     ${username}       Generate Username
     ${password}       Generate Password
@@ -32,7 +33,7 @@ digito os dados para cadastrar um Novo usuario e clico no botão registrar
     Input Text        id=registerEmail          ${useremail}
     Click Button      id=registerBtn
 
-digito os dados para cadastrar um Novo usuario com email Invalido e clico no botão registrar 
+digitar os dados para cadastrar um Novo usuario com email Invalido e clico no botão registrar 
     ${useremail}      Generate Valid email
     ${username}       Generate Username
     ${password}       Generate Password
@@ -41,21 +42,21 @@ digito os dados para cadastrar um Novo usuario com email Invalido e clico no bot
     Input Text        id=registerEmail          email&email.com
     Click Button      id=registerBtn
 
-digito os dados de usuario "${USER}" e senha "${PSW}" e clico no botão login
+digitar os dados de usuario "${USER}" e senha "${PSW}" e clico no botão login
     Input Text        id=username        ${USER}
     Input Text        id=password        ${PSW}
     Click Button      id=loginBtn
 
 
-digito a letra "${letra}" e clico no botão de busca
+digitar a letra "${letra}" e clico no botão de busca
     Input Text           id=letterSearch   ${letra}
     Click Button         id=searchByLetterBtn
 
-digito o nome "${bandName}" clico no botão de busca             
+digitar o nome "${bandName}" clico no botão de busca             
     Input Text           id=searchBand    ${bandName}
     Click Button         id=searchByNameBtn
 
-seleciono uma Banda na lista
+selecionar uma Banda na lista
     Wait Until Element Is Visible   xpath=//h1[contains(.,'Lista de bandas Cadastradas')]    10s
     Page Should Contain  Lista de bandas Cadastradas
     Sleep    5s
@@ -74,10 +75,10 @@ seleciono uma Banda na lista
 que esteja logado na pagina Temple of rock
     que acesse a pagina temple Of Rock
     que acesse a opcao de login
-    digito os dados de usuario "admin" e senha "123" e clico no botão login
+    digitar os dados de usuario "admin" e senha "123" e clico no botão login
     Sleep    10s
     
-seleciono o ítem "${botao_select}"
+selecionar o ítem "${botao_select}"
     
     IF    '${botao_select}' == 'Cadastrar Banda' 
         Click Button       //button[contains(.,'Cadastrar Banda')]
@@ -85,7 +86,7 @@ seleciono o ítem "${botao_select}"
         Click Button    //button[contains(.,'Editar Banda')]       
     END
         
-preencho o formulario de cadastro de Nova Banda
+preencher o formulario de cadastro de Nova Banda
     Wait Until Page Contains    Cadastro de Bandas 
     Click Button         xpath=//button[@onclick='openRegisterBandModal()']
     ${band_name}=        Get Band Name
@@ -103,12 +104,12 @@ preencho o formulario de cadastro de Nova Banda
     Input Text    id=origin           ${country}
     Click Button    xpath=//button[@type='submit'][contains(.,'Cadastrar')]
 
-digito o nome da banda "${band_Name}" e clico em Editar
+digitar o nome da banda "${band_Name}" e clico em Editar
     Wait Until Page Contains    Opções de Banda
     Input Text    id=searchBand    ${band_Name}
     Click Button    xpath=//button[contains(.,'Editar Banda')]
 
-Preencho o formulario de Editar Banda e clico em Salvar
+preencher o formulario de Editar Banda e clico em Salvar
     Wait Until Page Contains Element    xpath=//h2[contains(.,'Editar Banda')]    timeout=10s
 
     # Captura os valores originais dos campos
@@ -143,11 +144,11 @@ Preencho o formulario de Editar Banda e clico em Salvar
     # Salva a alteração
     Click Button    id=saveBtn
 
-digito o nome da banda "${band_name}" e clico em incluir discos
+digitar o nome da banda "${band_name}" e clico em incluir discos
     Input Text      xpath=//input[@placeholder='Nome da banda']    ${band_name}
     Click Button    //button[contains(.,'Incluir Discos')]
     
-digito o "${disc_title}" e o "${disc_Year}" e clico e Salvar
+digitar o "${disc_title}" e o "${disc_Year}" e clico e Salvar
     Input Text      id=discTitle    ${disc_title}  
     Input Text      id=discYear     ${disc_Year}   
     Click Button    xpath=//button[contains(.,'Salvar Disco')] 

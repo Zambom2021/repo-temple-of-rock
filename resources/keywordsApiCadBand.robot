@@ -1,9 +1,6 @@
 *** Settings ***
-Resource    ../resources/resource.resource
-Library     ../resources/modelPayload.py
-Library     ../resources/DateGenerator.py
-Library     ../resources/JsonConverter.py
-Library     ../resources/GenresModel.py
+Resource    ${EXECDIR}/resources/libs.resource
+Resource    ${EXECDIR}/resources/pageObjects.robot
 
 *** Keywords ***
 Gera Cadastro de banda

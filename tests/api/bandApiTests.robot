@@ -1,7 +1,7 @@
 Language: pt-br
 *** Settings ***
 Resource    ${EXECDIR}/resources/resource.resource
-Resource    ${EXECDIR}/resources/keywords_cad_band.robot
+
 
 *** Test Cases ***
 01 - Cadastro de Nova Banda

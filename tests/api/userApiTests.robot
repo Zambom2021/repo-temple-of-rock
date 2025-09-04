@@ -1,6 +1,6 @@
 Language: pt-br
 *** Settings ***
-Resource    ../../resources/resource.resource
+Resource    ${EXECDIR}/resources/resource.resource
 
 
 *** Test Cases ***
