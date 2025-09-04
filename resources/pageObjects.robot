@@ -154,4 +154,20 @@ digitar o "${disc_title}" e o "${disc_Year}" e clico e Salvar
     Click Button    xpath=//button[contains(.,'Salvar Disco')] 
 
 
+preencher o formulario de cadastro de Nova Banda com data "${date}"
+    Wait Until Page Contains    Cadastro de Bandas 
+    Click Button         xpath=//button[@onclick='openRegisterBandModal()']
+    ${band_name}=        Get Band Name
+    ${genre}=            Generate Genres
+    @{members}=          Generate Members    4
+    ${members_str}=    Evaluate     "," .join(${members})   
+
+    ${country}=          Generate Country
+
+    Input Text    id=bandName         ${band_name}
+    Input Text    id=genre            ${genre}
+    Input Text    id=members          ${members_str}
+    Input Text    id=formationYear    ${date}
+    Input Text    id=origin           ${country}
+    Click Button    xpath=//button[@type='submit'][contains(.,'Cadastrar')]
 

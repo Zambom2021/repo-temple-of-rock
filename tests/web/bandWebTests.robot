@@ -100,6 +100,23 @@ Test Teardown    Fechar Navegador
     Quando digitar a letra " " e clico no botão de busca
     Então visualizar a mensagem "Letra inválida."
 
- 
-     
+18 - Cadastro de uma nova Banda com data de formação Invalida 
+    [Documentation]    Testa o Cadastro de uma nova Banda com data de formação Invalida e valida mensagem de erro 
+    [Tags]    18
+    ${invalidFomartionYear}    Generate Date Plus N Days    366 
 
+    Dado que esteja logado na pagina Temple of rock
+    E selecionar o ítem "Cadastrar Banda" 
+    Quando preencher o formulario de cadastro de Nova Banda com data "${invalidFomartionYear}"
+    Então visualizar a mensagem "Erro ao cadastrar banda"
+
+19 - Cadastro de uma nova Banda com data de formação futura 
+    [Documentation]    Testa o Cadastro de uma nova Banda com data de formação futura e valida mensagem de erro 
+    [Tags]    19
+
+    ${futureDate}    Set Variable    2026
+
+    Dado que esteja logado na pagina Temple of rock
+    E selecionar o ítem "Cadastrar Banda" 
+    Quando preencher o formulario de cadastro de Nova Banda com data "${futureDate}"
+    Então visualizar a mensagem "Erro ao cadastrar banda"
