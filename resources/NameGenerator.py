@@ -5,8 +5,8 @@ class NameGenerator:
         self.formats = [
             '{first} {last}',
         ]
-        self.first_names = ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'Jeff', 'Peter', 'Gabriel', 'Mark']
-        self.last_names = ['Doe', 'Smith', 'Johnson', 'Brown', 'Williams', 'Silva', 'Botton', 'Pimenta', 'Rockscarface']
+        self.first_names = ['John', 'Jane', 'Alice', 'Bob', 'Charlie', 'Jeff', 'Peter', 'Gabriel', 'Mark', 'Dick', 'Rob', 'Jack']
+        self.last_names = ['Doe', 'Smith', 'Johnson', 'Brown', 'Williams', 'Silva', 'Botton', 'Pimenta', 'Rockscarface', 'McDonnald', 'Jones']
 
     def random_element(self, elements):
         return random.choice(elements)

@@ -16,7 +16,6 @@ Gera Cadastro de banda
     ${response}=    POST On Session    ${SESSION_ALIAS}    url=/bands    json=${request_body}    expected_status=anything 
     ${status_code}   convert to string    ${response.status_code} 
     
-    
     ${response_body} =    Set Variable     ${response.content}
     &{response_json}=     Convert For JSON    ${response_body}
 
