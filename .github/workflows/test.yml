@@ -95,12 +95,13 @@ jobs:
       # -------------------------
       - name: Run tests
         run: python -m robot -d logs tests/
-        # continue-on-error: true   # garante que o job continue mesmo se houver falhas
+        continue-on-error: true   # garante que o job continue mesmo se houver falhas
 
       # -------------------------
       # Upload resultados
       # -------------------------
       - name: Upload test results
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: robot-test-results
